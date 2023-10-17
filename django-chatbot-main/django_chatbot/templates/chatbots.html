@@ -362,6 +362,7 @@ li.message.sent {
     color: white;
     margin-bottom: 20px;
     background-color: #b2acac8d;
+    border-radius: 15px;
 }
 .message-text{
   color: white;
@@ -373,6 +374,7 @@ li.message.sent {
 
 li.message.received{
   background-color: #7875755d;
+  border-radius: 15px;
 }
 
 input.form-control.message-input {
@@ -503,6 +505,34 @@ right: auto;
 left: 20px;
 }
 
+
+/* preloader button active */
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid blue;
+  border-bottom: 16px solid blue;
+  width: 20px;
+  height: 20px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+#preloader{
+  display: none;
+}
+
 </style>
 <body>
 
@@ -534,7 +564,7 @@ left: 20px;
 
                         <div class="col-7">
 
-                          <h4>User here</h4>  
+                          <h4>{{user.username}}</h4>  
                         </div>
 
                         <div class="col-3">
@@ -617,27 +647,70 @@ left: 20px;
                       {% if chat.user == request.user %}
             
                         <li class="message sent">
-                      <div class="message-text">
-                        <div class="message-sender">
-                          <b>You {{chat.user}}</b>
-                        </div>
-                        <div class="message-content">
-                          {{chat.message}}
-                        </div>
-                      </div>
-                    </li>
+                          <div class="message-text">
+                            <div class="message-sender">
+                              <b>You {{chat.user}}</b>
+                            </div>
+                            <div class="message-content">
+                              {{chat.message}}
+                            </div>
+                          </div>
+                        </li>
             
                     <li class="message received">
                       <div class="message-text">
                         <div class="message-sender">
-                          <b  class="text-white">AI Chatbot</b>
+
+                            <div class="row">
+                                <div class="col-10">
+                                  <b  class="text-white">AI Chatbot</b>
+                                </div>
+
+                                <div class="col-2">
+
+                                  <div class="leftSideContent">
+
+                                      <div class="row d-flex align-items-center">
+
+                                          <div class="col d-flex justify-content-end">
+                                            12:03:2023
+                                          </div>
+
+                                          <div class="col">
+                                            <button style="background: none; background-color: none;"><i style="font-size:15px; color:white;" id="play_{{ forloop.counter }}" class="fa">&#xf028;</i></button>                                              
+                                          </div>
+
+                                      </div>
+        
+                                  </div>
+
+                                </div>
+
+                            </div>
+                          
                         </div>
-                        <div class="message-content text-white">
+                        <div class="message-content text-white" id="answer_{{ forloop.counter }}">
                           {{chat.response|linebreaks}}
                           <!-- |linebreaks -->
                         </div>
                       </div>
                     </li>
+
+                    <script>
+                          
+                          document.getElementById("play_{{ forloop.counter }}").addEventListener("click", () => {
+                              if (isSpeaking) {
+                                  // If speaking, stop the speech
+                                  window.speechSynthesis.cancel();
+                                  isSpeaking = false;
+                              } else {
+                                  // If not speaking, start speaking
+                                  speech.text = document.getElementById("answer_{{ forloop.counter }}").textContent;
+                                  window.speechSynthesis.speak(speech);
+                                  isSpeaking = true;
+                              }
+                          });
+                    </script>
             
                       {% endif %}
                     {% endfor %}
@@ -661,9 +734,16 @@ left: 20px;
                   <input type="text" class="form-control message-input" placeholder="Type your message...">
                   <div class="input-group-append">
 
-                    <button type="submit" id="submit" class="btn btn-light p-0 btn-send">
-                      <i style="font-size: 30px; margin: 5px; " class="material-icons">&#xe163;</i>
+                    <button type="submit" id="submit" class="btn btn-light p-0 btn-send m-2">
+                      <i style="font-size: 30px; margin: 5px;" id="sendBtn" class="material-icons">&#xe163;</i>                    
                     </button>
+
+                    <button type="button" id="preloader" class="btn btn-light p-0 btn-send m-2">                      
+                      <img src="/static/Spinner-1s-150px.gif" style="width: 30px; margin: 5px;">
+                    </button>
+
+
+
                   </div>
                 </div>
 
@@ -694,6 +774,27 @@ left: 20px;
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
   <script>
+
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const submitButton = document.getElementById("submit");
+      const preloaderButton = document.getElementById("preloader");
+
+      // Add a click event listener to the submit button
+      submitButton.addEventListener("click", function () {
+        // Hide the submit button
+        submitButton.style.display = "none";
+        // Show the preloader button
+        preloaderButton.style.display = "block";
+
+        // You can add your form submission logic here if needed
+        // For example, you can submit the form data to the server.
+        // Example: document.getElementById("yourFormId").submit();
+      });
+    });
+
+
+
     function openNav() {
       document.getElementById("mySidenav").style.width = "250px";
       document.getElementById("Openbutn").style.display = "none";      
@@ -710,6 +811,9 @@ left: 20px;
     const messageForm = document.querySelector('.message-form');
     const messageInput = document.querySelector('.message-input');
     const chatSide = document.querySelector(".chatSide");
+
+    let speech = new SpeechSynthesisUtterance();
+    let isSpeaking = false;
 
     function scrollChatToBottom() {
       chatSide.scrollTop = chatSide.scrollHeight;
