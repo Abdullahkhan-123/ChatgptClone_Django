@@ -346,7 +346,7 @@ input[type="submit"]:active
   bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 50%;
+  width: 60%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -731,18 +731,33 @@ left: 20px;
             
                   <!-- <textarea id="autoResizeTextArea" class="form-control message-input" placeholder="Type your text..." oninput="resizeTextarea(event)"></textarea> -->
 
-                  <input type="text" class="form-control message-input" placeholder="Type your message...">
+                  <input type="text" id="textarea" class="form-control message-input" placeholder="Type your message...">
                   <div class="input-group-append">
 
-                    <button type="submit" id="submit" class="btn btn-light p-0 btn-send m-2">
-                      <i style="font-size: 30px; margin: 5px;" id="sendBtn" class="material-icons">&#xe163;</i>                    
-                    </button>
+                    <div class="row">
 
-                    <button type="button" id="preloader" class="btn btn-light p-0 btn-send m-2">                      
-                      <img src="/static/Spinner-1s-150px.gif" style="width: 30px; margin: 5px;">
-                    </button>
+                        <div class="col p-0" style="margin-left:20px;">
 
+                          <button type="submit" id="submit" class="btn btn-light p-0 btn-send">
+                            <i style="font-size: 30px; margin: 5px;" id="sendBtn" class="material-icons">&#xe163;</i>                        
+                          </button>
 
+                          <button type="button" id="preloader" class="btn btn-light p-0 btn-send">
+                            <img src="/static/Spinner-1s-150px.gif" style="width: 30px; margin: 5px;">
+                          </button>
+
+                        </div>
+
+                        <div class="col p-0" style="margin-left:5px;">
+
+                          <button type="button" id="record" class="btn btn-light p-0 btn-send">
+                            <!-- <i style="font-size: 30px; margin: 5px;" id="sendBtn" class="material-icons">&#xe163;</i> -->
+                            <i style="font-size: 30px; margin: 5px; padding-left:5px; padding-right:5px;" class='fas'>&#xf130;</i>                    
+                          </button>
+
+                        </div>
+
+                    </div>
 
                   </div>
                 </div>
@@ -805,7 +820,6 @@ left: 20px;
       document.getElementById("mySidenav").style.width = "0";
       document.getElementById("Openbutn").style.display = "block";    
     }    
-
 
     const messagesList = document.querySelector('.messages-list');
     const messageForm = document.querySelector('.message-form');
@@ -899,7 +913,41 @@ left: 20px;
         console.log("Submitting:", data);
     }
 
-    
+    // Speech to voice
+
+    document.addEventListener("keydown", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Prevent the default Enter key behavior (e.g., form submission)
+            // Replace "your-id" with the actual ID of the element you want to submit
+            document.getElementById("submit").click();
+        }
+    });
+
+    const Showtext = document.getElementById("textarea");
+    const recordButton = document.getElementById("record");
+    let sr = window.webkitSpeechRecognition || window.SpeechRecognition;
+    let spRec = new sr();
+    let isRecording = false;
+
+    recordButton.addEventListener("click", () => {
+        if (!isRecording) {
+            spRec.start();
+            // recordButton.textContent = "Stop"; 
+            isRecording = true;
+        } else {
+            spRec.stop();
+            // recordButton.textContent = "Record";
+            isRecording = false;
+        }
+    });
+
+    spRec.onresult = (res) => {
+        let text = Array.from(res.results)
+            .map((r) => r[0])
+            .map((txt) => txt.transcript)
+            .join("");
+          Showtext.value = text;
+    };    
 
     </script>
 
