@@ -672,11 +672,14 @@ left: 20px;
 
                                       <div class="row d-flex align-items-center">
 
-                                          <div class="col d-flex justify-content-end">
-                                            12:03:2023
+                                          <div class="col-10 d-flex justify-content-end">
+                                            {{chat.created_at}}
+
+                                            <button onclick="copyTextToClipboard('{{ forloop.counter }}')">C</button>
+                                            
                                           </div>
 
-                                          <div class="col">
+                                          <div class="col-2">
                                             <button style="background: none; background-color: none;"><i style="font-size:15px; color:white;" id="play_{{ forloop.counter }}" class="fa">&#xf028;</i></button>                                              
                                           </div>
 
@@ -697,6 +700,41 @@ left: 20px;
                     </li>
 
                     <script>
+
+
+function copyTextToClipboard(forloopCounter) {
+            // Text ko element ID ke saath fetch karein
+            var textElement = document.getElementById("answer_" + forloopCounter);
+            
+            // Text ko select karein
+            var text = textElement.textContent;
+            
+            // Temporary textarea element create karein
+            var tempTextarea = document.createElement("textarea");
+            tempTextarea.value = text;
+            
+            // Temporary element ko screen par dikhe na dikhaye
+            tempTextarea.style.position = "absolute";
+            tempTextarea.style.left = "-9999px";
+            
+            // Element ko body mein add karein
+            document.body.appendChild(tempTextarea);
+            
+            // Text ko select karein
+            tempTextarea.select();
+            
+            // Text ko clipboard mein copy karein
+            document.execCommand("copy");
+            
+            // Temporary element ko remove karein
+            document.body.removeChild(tempTextarea);
+            
+            // User ko feedback den
+            alert("Text copied to clipboard: ");
+        }
+
+
+
                           
                           document.getElementById("play_{{ forloop.counter }}").addEventListener("click", () => {
                               if (isSpeaking) {
@@ -738,7 +776,7 @@ left: 20px;
 
                         <div class="col p-0" style="margin-left:20px;">
 
-                          <button type="submit" id="submit" class="btn btn-light p-0 btn-send">
+                          <button type="submit" id="submit" class="btn btn-success p-0 btn-send">
                             <i style="font-size: 30px; margin: 5px;" id="sendBtn" class="material-icons">&#xe163;</i>                        
                           </button>
 
@@ -750,7 +788,7 @@ left: 20px;
 
                         <div class="col p-0" style="margin-left:5px;">
 
-                          <button type="button" id="record" class="btn btn-light p-0 btn-send">
+                          <button type="button" id="record" class="btn btn-primary p-0 btn-send">
                             <!-- <i style="font-size: 30px; margin: 5px;" id="sendBtn" class="material-icons">&#xe163;</i> -->
                             <i style="font-size: 30px; margin: 5px; padding-left:5px; padding-right:5px;" class='fas'>&#xf130;</i>                    
                           </button>
