@@ -538,7 +538,8 @@ left: 20px;
 
     <section> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> 
 
-        <div class="main_content">        
+
+        <div class="main_content">   
           
 
           <div class="row">
@@ -662,25 +663,27 @@ left: 20px;
                         <div class="message-sender">
 
                             <div class="row">
-                                <div class="col-10">
+                                <div class="col-9">
                                   <b  class="text-white">AI Chatbot</b>
                                 </div>
 
-                                <div class="col-2">
+                                <div class="col-3">
 
                                   <div class="leftSideContent">
 
                                       <div class="row d-flex align-items-center">
 
-                                          <div class="col-10 d-flex justify-content-end">
+                                          <div class="col-6 m-0 p-0">
                                             {{chat.created_at}}
-
-                                            <button onclick="copyTextToClipboard('{{ forloop.counter }}')">C</button>
-                                            
                                           </div>
 
-                                          <div class="col-2">
-                                            <button style="background: none; background-color: none;"><i style="font-size:15px; color:white;" id="play_{{ forloop.counter }}" class="fa">&#xf028;</i></button>                                              
+                                          <div class="col-5 m-0 p-0 d-flex justify-content-center">
+                                            <button style="background: none; background-color: none; color: white;" onclick="copyTextToClipboard('{{ forloop.counter }}')">Copy clipboard</button>
+                                            <!-- <button style="background: none; background-color: none; color: white;" onclick="copyTextToClipboard('{{ forloop.counter }}')">Copied clipboard</button> -->
+                                          </div>
+
+                                          <div class="col-1 m-0 p-0">
+                                            <button style="background: none; background-color: none;"><i style="font-size:15px; color:white;" id="play_{{ forloop.counter }}" class="fa">&#xf028;</i></button>
                                           </div>
 
                                       </div>
@@ -693,7 +696,7 @@ left: 20px;
                           
                         </div>
                         <div class="message-content text-white" id="answer_{{ forloop.counter }}">
-                          {{chat.response|linebreaks}}
+                          {{chat.response}}
                           <!-- |linebreaks -->
                         </div>
                       </div>
@@ -776,7 +779,7 @@ function copyTextToClipboard(forloopCounter) {
 
                         <div class="col p-0" style="margin-left:20px;">
 
-                          <button type="submit" id="submit" class="btn btn-success p-0 btn-send">
+                          <button type="submit" id="submit" class="btn btn-success p-0 btn-send" onclick="myfunc(event)">
                             <i style="font-size: 30px; margin: 5px;" id="sendBtn" class="material-icons">&#xe163;</i>                        
                           </button>
 
@@ -827,27 +830,27 @@ function copyTextToClipboard(forloopCounter) {
   <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 
   <script>
+      
 
 
-    document.addEventListener("DOMContentLoaded", function () {
-      const submitButton = document.getElementById("submit");
-      const preloaderButton = document.getElementById("preloader");
+    // this function is for preloader
+    // document.addEventListener("DOMContentLoaded", function () {
+    //   const preloaderButton = document.getElementById("preloader");
+    //   const submitButton = document.getElementById("submit");
 
-      // Add a click event listener to the submit button
-      submitButton.addEventListener("click", function () {
-        // Hide the submit button
-        submitButton.style.display = "none";
-        // Show the preloader button
-        preloaderButton.style.display = "block";
-
-        // You can add your form submission logic here if needed
-        // For example, you can submit the form data to the server.
-        // Example: document.getElementById("yourFormId").submit();
-      });
-    });
-
+    //   // Add a click event listener to the submit button
+    //   submitButton.addEventListener("click", function () {
+    //     // Hide the submit button
+    //     submitButton.style.display = "none";
+    //     // Show the preloader button
+    //     preloaderButton.style.display = "block";
+    //   });
+      
+    // });
+    // this function is for preloader
 
 
+    // this is for navbar items
     function openNav() {
       document.getElementById("mySidenav").style.width = "250px";
       document.getElementById("Openbutn").style.display = "none";      
@@ -867,19 +870,34 @@ function copyTextToClipboard(forloopCounter) {
     let speech = new SpeechSynthesisUtterance();
     let isSpeaking = false;
 
+
+    // this function is for scroll down the page after submit answer
     function scrollChatToBottom() {
       chatSide.scrollTop = chatSide.scrollHeight;
     }
-
+    
+    // this function is for reload function
     function reloadPage() {
       location.reload();
     }
 
+
+    function hidepreloader(){
+      document.getElementById("preloader").style.display = "none";
+      document.getElementById("submit").style.display = "block";
+    }
+
+    function showpreloader(){
+      document.getElementById("preloader").style.display = "block";
+      document.getElementById("submit").style.display = "none";
+    }
+
+    // this function is for send message
     messageForm.addEventListener('submit', (event) => {
       event.preventDefault();
 
       const message = messageInput.value.trim();
-      if (message.length === 0) {
+      if (message.length === 0) {      
         return;
       }
 
@@ -894,24 +912,32 @@ function copyTextToClipboard(forloopCounter) {
                   ${message}
               </div>
           </div>`;
-      messagesList.appendChild(messageItem);
-
+      messagesList.appendChild(messageItem);      
       messageInput.value = '';
 
-      scrollChatToBottom();    
+
+      // here i am calling the page down function
+      scrollChatToBottom(); 
+      showpreloader()   
+      
 
       fetch('', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({
           'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
-          'message': message
+          'message': message          
         })
       })
+      
         .then(response => response.json())
         .then(data => {
+          
+          // here i am calling the page down function
+          scrollChatToBottom();
+          hidepreloader();
           const response = data.response;
-          reloadPage();
+          // reloadPage();
           const messageItem = document.createElement('li');
           messageItem.classList.add('message', 'received');
           messageItem.innerHTML = `
@@ -920,7 +946,7 @@ function copyTextToClipboard(forloopCounter) {
                 <b>AI Chatbot</b>
               </div>
               <div class="message-content">
-                  ${response.replace('\n <br>')}
+                  ${response.replace(/\n/g, '<br>')}
               </div>
           </div>
             `;
@@ -929,9 +955,6 @@ function copyTextToClipboard(forloopCounter) {
     });
 
     scrollChatToBottom();
-
-
-
     const textarea = document.getElementById("autoResizeTextArea");
 
     function resizeTextarea(event) {
@@ -961,6 +984,7 @@ function copyTextToClipboard(forloopCounter) {
         }
     });
 
+    // this code is for speech to text function
     const Showtext = document.getElementById("textarea");
     const recordButton = document.getElementById("record");
     let sr = window.webkitSpeechRecognition || window.SpeechRecognition;
@@ -986,6 +1010,73 @@ function copyTextToClipboard(forloopCounter) {
             .join("");
           Showtext.value = text;
     };    
+
+
+    // this function is for saving data into localStorage and if user entered more then 3 times same data so one audio will start automatically 
+
+    // function playAudioOnCondition() {
+    //     if (consecutiveEntries > 2) {
+    //         let audio = new Audio("/static/Ek_din_Mar.mp3");
+    //         audio.play();
+    //     }
+    // }
+
+    function playAudioOnCondition() {
+        if (consecutiveEntries > 2) {
+            let audio = new Audio("/static/Ek_din_Mar.mp3");
+            audio.onended = function () {
+                audio.play(); // Restart the audio when it ends
+            };
+            audio.play(); // Start playing the audio
+        }
+    }
+
+    // Variables to keep track of consecutive entries
+    let consecutiveEntries = 0;
+    let previousData = "";
+
+    // Function to store data in localStorage
+    function myfunc(event) {
+        // event.preventDefault();
+
+        const inputField = document.getElementById('textarea').value;
+
+        // Check if the input data matches the previous data
+        if (inputField === previousData) {
+            consecutiveEntries++;
+
+            // If three consecutive entries are the same, show an alert
+            if (consecutiveEntries >= 2) {
+                // alert("You entered the same data three times in a row.");
+                playAudioOnCondition();
+                // console.log("You entered the same data");
+            }
+        } else {
+            // Reset the count if the data is different
+            consecutiveEntries = 0;
+        }
+
+        previousData = inputField;
+
+        const existingData = localStorage.getItem('inputField');
+        let newData = inputField;
+
+        if (existingData) {
+            // Append the new data to existing data
+            newData = existingData + ' | ' + inputField;
+        }
+
+        localStorage.setItem('inputField', newData);
+
+        // Call the function to check the data from localStorage after storing it        
+    }
+
+
+    // Add an event listener to the submit button
+    // var clickbutton = document.getElementById('submit');
+    // clickbutton.addEventListener('submit', myfunc);
+    
+    // messageForm.addEventListener('submit', (event) => {
 
     </script>
 
